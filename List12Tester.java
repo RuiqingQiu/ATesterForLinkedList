@@ -1,5 +1,5 @@
 /**
- * Assignment 1             List12Tester.java         Due. April 12
+ * Assignment 1            List12Tester.java         Due. April 12
  * login: cs12sni
  **/
 
@@ -174,18 +174,28 @@ public class List12Tester extends TestCase
     try
     {
       theL.add(-1, 10);
-      fail();
+      fail("Expected IndexOutOfBoundsException");
     }
     catch(IndexOutOfBoundsException e)
     {
+    }
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
     }
     //exception check for index larger than size()
     try
     {
       theL.add(theL.size()+1,10);
+      fail("Expected IndexOutOfBoundsException");
     }
     catch(IndexOutOfBoundsException e)
-    {}
+    {
+    }
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
   }
   
  /**
@@ -271,20 +281,34 @@ public class List12Tester extends TestCase
     {
       theL.add(i);
     }
+    
+    //check if the index is negative
     try
     {
       theL.remove(-1);
-      fail();
+      fail("Expected IndexOutOfBoundsExpcetion");
     }
     catch(IndexOutOfBoundsException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
+    
+    //check if the index is equal to size()
     try
     {
       theL.remove(theL.size());
-      fail();
+      fail("Expected IndexOutOfBoundsException");
     }
     catch(IndexOutOfBoundsException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
+    
+    //check if the index is larger than size()
     try
     {
       theL.remove(theL.size()+1);
@@ -292,6 +316,10 @@ public class List12Tester extends TestCase
     }
     catch(IndexOutOfBoundsException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
   } 
   
  /**
@@ -444,23 +472,41 @@ public class List12Tester extends TestCase
     try
     {
       theL.remove(theL.size()+1);
-      fail();
+      fail("Expected IndexOutOfBoundsException");
     }
     catch(IndexOutOfBoundsException e)
     {
     }
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
+    
+    //remove an element whose index is equal to size()
     try
     {
       theL.remove(theL.size());
+      fail("Expected IndexOutOfBoundsException");
     }
     catch(IndexOutOfBoundsException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
+   
+    //remove an element of negative index
     try
     {
       theL.remove(-1);
+      fail("Expected IndexOutOfBoundsException");
     }
     catch(IndexOutOfBoundsException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
   }
 
  /**
@@ -498,27 +544,45 @@ public class List12Tester extends TestCase
     {
       theL.add(i);
     }
+    
+    //set a number at a negative index
     try
     {
       theL.set(-1,1);
-      fail();
+      fail("Expected IndexOutOfBoundsException");
     }
     catch(IndexOutOfBoundsException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
+    
+    //set a number whose index is equal to size()
     try
     {
       theL.set(theL.size(),1);
-      fail();
+      fail("Expected IndexOutOfBoundsException");
     }
     catch(IndexOutOfBoundsException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
+    
+    //set a number whose index is larger than size()
     try
     { 
       theL.set(theL.size()+1, 1);
-      fail();
+      fail("Expected IndexOutOfBoundsExcetion");
     }
     catch(IndexOutOfBoundsException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
   }
   
  /**
@@ -553,14 +617,19 @@ public class List12Tester extends TestCase
   {
     //set up a String list 
     List<String> theL = new List12<String>();
-    //check if the false will return correctly
+    //check if empty list will return false
     assertFalse(theL.iterator().hasNext());
     
     //add two String elements to the list
     theL.add("A");
+    Iterator itr = theL.iterator();
+    itr.next();
+    assertFalse(itr.hasNext());
+ 
     theL.add("B");
+    itr = theL.iterator();
     //check if the true value will return correctly   
-    assertTrue(theL.iterator().hasNext());
+    assertTrue(itr.hasNext());
   }
   
  /**
@@ -597,10 +666,30 @@ public class List12Tester extends TestCase
     try
     {
       theL.iterator().next();
-      fail();
+      fail("Expected NoSuchElementException");
     }
     catch(NoSuchElementException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
+   
+    //set up one element List and move the iterator to the end
+    theL.add("A");
+    Iterator itr = theL.iterator();
+    itr.next();
+    try
+    {
+      itr.next();
+      fail("Expected NoSuchElementException");
+    }
+    catch(NoSuchElementException e)
+    {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
   }
  
  /**
@@ -644,9 +733,14 @@ public class List12Tester extends TestCase
     {
       //call remove without next()
       itr.remove();
+      fail("Expected IllegalStateException");
     }
     catch(IllegalStateException e)
     {}
+    catch(Throwable e)
+    {
+      fail("An unexpected exception was thrown");
+    }
   }
  
  /**
